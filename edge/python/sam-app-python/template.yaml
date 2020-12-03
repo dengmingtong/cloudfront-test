@@ -5,6 +5,19 @@ Description: >
 
   Sample SAM Template for sam-app-python
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: my-app-helloworld-python
+    Description: hello world
+    Author: mingtong
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: LICENSE.txt
+    ReadmeUrl: README.md
+    Labels: ['tests']
+    HomePageUrl: https://github.com/dengmingtong/my-app-project
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/dengmingtong/my-app-project    
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
