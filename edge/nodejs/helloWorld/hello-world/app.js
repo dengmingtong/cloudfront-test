@@ -15,7 +15,7 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
-try {
+    try {
         // const ret = await axios(url);
         response = {
             'statusCode': 200,
