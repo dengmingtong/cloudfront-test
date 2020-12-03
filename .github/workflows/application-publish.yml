@@ -17,8 +17,9 @@ jobs:
       with: 
         node-version: '12'
     - name: SAM Package 
-      run: sam package -t edge/nodejs/helloWorld/template.yaml --output-template-file edge/nodejs/helloWorld/packaged.yaml --s3-bucket mingtong-sar-helloworld
+      run: sam package -t edge/nodejs/helloWorld/template.yaml --output-template-file edge/nodejs/helloWorld/packaged.yaml --s3-bucket mingtong-sar-helloworld --region us-east-1
       env:
+        SAM_CLI_TELEMETRY: 0
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: SAM Publish 
