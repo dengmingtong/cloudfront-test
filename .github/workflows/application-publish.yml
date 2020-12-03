@@ -14,14 +14,29 @@ jobs:
       with:
         sam_command: "build"
       env:
+        TEMPLATE: 'edge/nodejs/helloWorld/template.yaml'
+        AWS_STACK_NAME: my-helloworld-nodejs-serverless-application
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-    - name: sam deploy
+        AWS_REGION: 'us-east-1'
+        AWS_DEPLOY_BUCKET: ${{ secrets.AWS_DEPLOY_BUCKET }}
+    - name: sam package
       uses: TractorZoom/sam-cli-action@master
       with:
-        sam_command: "deploy"
+        sam_command: "package --template-file edge/nodejs/helloWorld/template.yaml --output-template-file edge/nodejs/helloWorld/packaged.yaml --s3-bucket mingtong-sar-helloworld"
+      env:
+        AWS_STACK_NAME: my-helloworld-nodejs-serverless-application
+        AWS_REGION: 'us-east-1'
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: sam publish
+      uses: TractorZoom/sam-cli-action@master
+      with:
+        sam_command: "publish --template edge/nodejs/helloWorld/packaged.yaml"
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_REGION: 'us-east-1'
+
+
+
