@@ -7,7 +7,7 @@ Description: >
 
 Metadata:
   AWS::ServerlessRepo::Application:
-    Name: my-app
+    Name: my-app-helloworld
     Description: hello world
     Author: mingtong
     SpdxLicenseId: Apache-2.0
