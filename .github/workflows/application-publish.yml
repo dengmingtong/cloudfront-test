@@ -1,4 +1,4 @@
-name: "build and publish application"
+name: "Cloudfront Extension CI"
 
 on: 
   push:
@@ -6,27 +6,27 @@ on:
     - main
 
 jobs:
-  deploy:
+  checkout:
+    name: Checkout
     runs-on: ubuntu-latest
     steps:
-    - name: sam build
-      uses: TractorZoom/sam-cli-action@master
-      with:
-        sam_command: "build -t edge/nodejs/helloWorld/template.yaml"
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Prepare Environment
+      uses: actions/setup-node@v1
+      with: 
+        node-version: '12'
+    - name: Install
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: SAM Package 
+      run: sam package -t edge/nodejs/helloWorld/template.yaml --output-template-file edge/nodejs/helloWorld/packaged.yaml --s3-bucket mingtong-sar-helloworld
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: sam package
-      uses: TractorZoom/sam-cli-action@master
-      with:
-        sam_command: "package -t edge/nodejs/helloWorld/template.yaml --output-template-file edge/nodejs/helloWorld/packaged.yaml --s3-bucket mingtong-sar-helloworld"
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: sam publish
-      uses: TractorZoom/sam-cli-action@master
-      with:
-        sam_command: "publish --t edge/nodejs/helloWorld/packaged.yaml --region us-east-1"
+    - name: SAM Publish 
+      run: sam publish --t edge/nodejs/helloWorld/packaged.yaml --region us-east-1
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
