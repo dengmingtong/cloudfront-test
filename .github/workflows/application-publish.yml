@@ -1,54 +1,22 @@
-name: "Cloudfront Extension CI"
+name: "Pull Request Workflow"
 
-on: 
-  push:
-    branches:
-    - main
+on: [pull_request]
 
 jobs:
-  nodejs-publish:
-    name: nodejs-publish
+  pr-check:
+    name: validate-pr
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Prepare Environment
-      uses: actions/setup-node@v1
-      with: 
-        node-version: '12'
-    - name: SAM Package 
-      run: sam package -t edge/nodejs/helloWorld/template.yaml --output-template-file edge/nodejs/helloWorld/packaged.yaml --s3-bucket mingtong-sar-helloworld --region us-east-1
-      env:
-        SAM_CLI_TELEMETRY: 0
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: SAM Publish 
-      run: sam publish -t edge/nodejs/helloWorld/packaged.yaml --region us-east-1
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  python-publish:
-    name: python-publish
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Prepare Environment
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-    - name: SAM Package 
-      run: sam package -t edge/python/sam-app-python/template.yaml --output-template-file edge/python/sam-app-python/packaged.yaml --s3-bucket mingtong-sar-helloworld --region us-east-1
-      env:
-        SAM_CLI_TELEMETRY: 0
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: SAM Publish 
-      run: sam publish -t edge/python/sam-app-python/packaged.yaml --region us-east-1
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}        
+   steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install packages
+        run: cd .github/actions/prlinter && npm ci
+
+      - name: Validate
+        uses: ./.github/actions/prlinter
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}   
 
 
