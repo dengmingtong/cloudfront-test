@@ -34,7 +34,7 @@ with open(dependabotConfig, 'w') as outfile:
     yaml.dump(initData, outfile, default_flow_style=False)
 
 with open(dependabotConfig) as f:
-    newfile = yaml.load(f, Loader=yaml.CLoader)
+    newfile = yaml.load(f, Loader=yaml.SafeLoader)
 
 newfile["updates"] = generateConfig()
 
