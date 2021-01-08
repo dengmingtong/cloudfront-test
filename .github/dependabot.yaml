@@ -1,10 +1,10 @@
-version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/edge/nodejs/helloWorld"
-    # Check the npm registry for updates every day (weekdays)
-    schedule:
-      interval: "daily"
-
+- directory: edge/nodejs/hello-world/hello-world
+  package-ecosystem: npm
+  schedule:
+    interval: daily
+- directory: edge/nodejs/sam-app-python/sam-app-python
+  package-ecosystem: pip
+  schedule:
+    interval: daily
+version: 2
