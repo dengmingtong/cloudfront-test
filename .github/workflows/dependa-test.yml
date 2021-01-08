@@ -15,3 +15,20 @@ jobs:
 
     - name: Test
       run: echo 'Test success'
+    - name: install python      
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' 
+    - name: update-dependabot-config
+      run: ./scripts/update-dependabot-config.sh
+
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
+      with:
+        delete-branch: true
+        title: 'Update dependabot config'
+    - name: Check outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"      
