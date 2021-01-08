@@ -1,22 +1,22 @@
-name: "Pull Request Workflow"
+# name: "Pull Request Workflow"
 
-on: [pull_request]
+# on: [pull_request]
 
-jobs:
-  pr-check:
-    name: validate-pr
-    runs-on: ubuntu-latest
+# jobs:
+#   pr-check:
+#     name: validate-pr
+#     runs-on: ubuntu-latest
 
-   steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#    steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
 
-      - name: Install packages
-        run: cd .github/actions/prlinter && npm ci
+#       - name: Install packages
+#         run: cd .github/actions/prlinter && npm ci
 
-      - name: Validate
-        uses: ./.github/actions/prlinter
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}   
+#       - name: Validate
+#         uses: ./.github/actions/prlinter
+#         env:
+#           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}   
 
 
