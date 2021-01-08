@@ -24,4 +24,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     - name: s3 operation
-      run: aws s3 cp update-dependabot-config.sh s3://sa-launch-mingtong
+      run: aws s3 cp scripts/update-dependabot-config.sh s3://sa-launch-mingtong
