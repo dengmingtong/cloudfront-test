@@ -1,0 +1,16 @@
+name: "pull request target test"
+
+on:
+  pull_request_target
+  types: [labeled]
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: test
+      run: ./scripts/test.sh
