@@ -1,8 +1,11 @@
 name: "pull request target test"
 
 on:
-  pull_request_target:
-    types: [ labeled ]  
+  # pull_request_target:
+  #   types: [ labeled ]
+  push:
+    branches:
+    - main
 
 jobs:
   build:
@@ -14,3 +17,11 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: test
       run: ./scripts/test.sh
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: s3 operation
+      run: aws s3 cp update-dependabot-config.sh s3://aws-solutions-build-assets
