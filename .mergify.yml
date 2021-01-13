@@ -32,5 +32,5 @@ pull_request_rules:
       - author!=dependabot[bot]
       - author!=dependabot-preview[bot]
       - "#approved-reviews-by>=1"
-      - approved-reviews-by~=^(zhangshan|lisi)
+      - approved-reviews-by~=^(dengmingtong|NingLu)
       - "#changes-requested-reviews-by=0"
