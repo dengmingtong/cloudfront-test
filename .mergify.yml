@@ -1,0 +1,18 @@
+# See https://doc.mergify.io
+
+pull_request_rules:
+  - name: automatic merge of Dependabot PRs
+    actions:
+      comment:
+        message: Thanks Dependabot!
+      merge:
+        strict: false
+        method: squash
+    conditions:
+      - -title~=(WIP|wip)
+      - -label~=(blocked|do-not-merge)
+      - -merged
+      - -closed
+      - author~=dependabot
+      - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by=0"
